@@ -135,11 +135,21 @@ impl std::fmt::Display for RollsInfo {
     }
 }
 
+#[derive(Debug, Deserialize, Serialize, Clone, Copy)]
+pub struct SCELedgerInfo {}
+
+impl std::fmt::Display for SCELedgerInfo {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
 #[derive(Debug, Deserialize, Serialize)]
 pub struct AddressInfo {
     pub address: Address,
     pub thread: u8,
     pub ledger_info: LedgerInfo,
+    pub sce_ledger_info: Option<SCELedgerInfo>,
     pub rolls: RollsInfo,
     pub block_draws: HashSet<Slot>,
     pub endorsement_draws: HashSet<IndexedSlot>,

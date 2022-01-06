@@ -4,6 +4,8 @@ use crate::types::{ExecutionQueue, ExecutionRequest};
 use crate::vm::VM;
 use crate::BootstrapExecutionState;
 use crate::{config::ExecutionConfigs, config::ExecutionSettings, types::ExecutionStep};
+use massa_models::address::AddressHashMap;
+use massa_models::api::SCELedgerInfo;
 use massa_models::execution::ExecuteReadOnlyResponse;
 use massa_models::output_event::SCOutputEvent;
 use massa_models::timeslots::{get_block_slot_timestamp, get_current_latest_block_slot};
@@ -58,6 +60,11 @@ pub enum ExecutionCommand {
         /// The address, or a default random one if none is provided,
         /// which will simulate the sender of the operation.
         address: Option<Address>,
+    },
+
+    GetSCELedgerForAddresses {
+        response_tx: oneshot::Sender<AddressHashMap<SCELedgerInfo>>,
+        addresses: Vec<Address>,
     },
 }
 
@@ -304,6 +311,10 @@ impl ExecutionWorker {
             ExecutionCommand::GetSCOutputEventBySCAddress {
                 sc_address,
                 response_tx,
+            } => todo!(),
+            ExecutionCommand::GetSCELedgerForAddresses {
+                response_tx,
+                addresses,
             } => todo!(),
         }
         Ok(())
