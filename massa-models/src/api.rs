@@ -145,7 +145,7 @@ pub struct SCELedgerInfo {
 
 impl std::fmt::Display for SCELedgerInfo {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        writeln!(f, "    Balance: {}", self.balance)?;
+        writeln!(f, "\tBalance: {}", self.balance)?;
         // I choose not to display neither the module nor the datastore because bytes
         Ok(())
     }
@@ -237,6 +237,7 @@ impl AddressInfo {
             thread: self.thread,
             balance: self.ledger_info,
             rolls: self.rolls,
+            sce_balance: self.sce_ledger_info.clone(),
         }
     }
 }
@@ -260,13 +261,15 @@ pub struct CompactAddressInfo {
     pub thread: u8,
     pub balance: LedgerInfo,
     pub rolls: RollsInfo,
+    pub sce_balance: SCELedgerInfo,
 }
 
 impl std::fmt::Display for CompactAddressInfo {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         writeln!(f, "Address: {}", self.address)?;
         writeln!(f, "Thread: {}", self.thread)?;
-        writeln!(f, "Balance:\n{}", self.balance)?;
+        writeln!(f, "Sequential balance:\n{}", self.sce_balance)?;
+        writeln!(f, "Parallel balance:\n{}", self.balance)?;
         writeln!(f, "Rolls:\n{}", self.rolls)?;
         Ok(())
     }
