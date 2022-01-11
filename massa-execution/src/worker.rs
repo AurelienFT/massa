@@ -3,14 +3,13 @@ use crate::sce_ledger::FinalLedger;
 use crate::types::{ExecutionQueue, ExecutionRequest};
 use crate::vm::VM;
 use crate::BootstrapExecutionState;
-use crate::{config::ExecutionConfigs, config::ExecutionSettings, types::ExecutionStep};
+use crate::{config::ExecutionConfigs, types::ExecutionStep};
 use massa_models::address::AddressHashMap;
 use massa_models::api::SCELedgerInfo;
 use massa_models::execution::ExecuteReadOnlyResponse;
 use massa_models::output_event::SCOutputEvent;
 use massa_models::timeslots::{get_block_slot_timestamp, get_current_latest_block_slot};
 use massa_models::{Address, Amount, Block, BlockHashMap, BlockId, Slot};
-use massa_time::MassaTime;
 use std::collections::BTreeMap;
 use std::thread::{self, JoinHandle};
 use tokio::sync::{mpsc, oneshot};
@@ -188,7 +187,7 @@ impl ExecutionWorker {
         })
     }
 
-    // asks the VM to reset to its final
+    /// asks the VM to reset to its final state
     pub fn reset_to_final(&mut self) {
         let (queue_lock, condvar) = &*self.execution_queue;
         let queue_guard = &mut queue_lock.lock().unwrap();
@@ -208,11 +207,7 @@ impl ExecutionWorker {
         condvar.notify_one();
     }
 
-    /// runs an SCE-active step (slot)
-    ///
-    /// # Arguments
-    /// * slot: target slot
-    /// * block: None if miss, Some(block_id, block) otherwise
+    /// sends an arbitrary VM request
     fn push_request(&self, request: ExecutionRequest) {
         let (queue_lock, condvar) = &*self.execution_queue;
         let queue_guard = &mut queue_lock.lock().unwrap();
@@ -323,6 +318,7 @@ impl ExecutionWorker {
     /// fills the remaining slots until now() with miss executions
     /// see step 4 in spec https://github.com/massalabs/massa/wiki/vm-block-feed
     fn fill_misses_until_now(&mut self) -> Result<(), ExecutionError> {
+        /* TODO DISABLED TEMPORARILY https://github.com/massalabs/massa/issues/2101
         let end_step = get_current_latest_block_slot(
             self.cfg.thread_count,
             self.cfg.t0,
@@ -346,6 +342,7 @@ impl ExecutionWorker {
                 s = s.get_next_slot(self.cfg.thread_count)?;
             }
         }
+        */
         Ok(())
     }
 
@@ -480,16 +477,17 @@ impl ExecutionWorker {
                     // there is a block B at slot S in `sce_active_blocks`:
                     Some(b_slot) if b_slot == s => {
                         // remove the entry from sce_active_blocks (cannot panic, checked above)
-                        let (_b_slot, (b_id, block)) = sce_active_blocks
+                        let (_b_slot, (_b_id, _block)) = sce_active_blocks
                             .pop_first()
                             .expect("sce_active_blocks should not be empty");
                         // call the VM to execute the SCE-active block B at slot S
+                        /* TODO DISABLED TEMPORARILY https://github.com/massalabs/massa/issues/2101
                         self.push_request(ExecutionRequest::RunActiveStep(ExecutionStep {
                             slot: s,
                             block: Some((*b_id, block.clone())),
                         }));
-
                         self.last_active_slot = s;
+                        */
                     }
 
                     // otherwise, if there is no CSS-active block at S
@@ -500,12 +498,13 @@ impl ExecutionWorker {
                         }
 
                         // call the VM to execute an SCE-active miss at slot S
+                        /*  TODO DISABLED TEMPORARILY https://github.com/massalabs/massa/issues/2101
                         self.push_request(ExecutionRequest::RunActiveStep(ExecutionStep {
                             slot: s,
                             block: None,
                         }));
-
                         self.last_active_slot = s;
+                        */
                     }
 
                     // there are no more CSS-active blocks

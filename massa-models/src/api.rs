@@ -1,6 +1,7 @@
 // Copyright (c) 2021 MASSA LABS <info@massa.net>
 
 use crate::address::AddressCycleProductionStats;
+use crate::hhasher::HHashMap;
 use crate::ledger::LedgerData;
 use crate::node::NodeId;
 use crate::stats::{ConsensusStats, NetworkStats, PoolStats};
@@ -8,11 +9,11 @@ use crate::{
     Address, Amount, Block, BlockHashSet, BlockId, CompactConfig, Endorsement, EndorsementHashSet,
     EndorsementId, Operation, OperationHashSet, OperationId, Slot, Version,
 };
+use massa_hash::hash::Hash;
 use massa_time::MassaTime;
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 use std::net::{IpAddr, SocketAddr};
-
 #[derive(Debug, Deserialize, Serialize)]
 pub struct NodeStatus {
     pub node_id: NodeId,
@@ -135,7 +136,7 @@ impl std::fmt::Display for RollsInfo {
     }
 }
 
-#[derive(Debug, Deserialize, Serialize, Clone, Copy)]
+#[derive(Debug, Deserialize, Serialize, Clone, Default)]
 pub struct SCELedgerInfo {
     balance: Amount,
     module: Option<Vec<u8>>,
@@ -146,6 +147,7 @@ impl std::fmt::Display for SCELedgerInfo {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         writeln!(f, "    Balance: {}", self.balance)?;
         // I choose not to display neither the module nor the datastore because bytes
+        Ok(())
     }
 }
 

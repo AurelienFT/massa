@@ -251,6 +251,7 @@ impl ConsensusWorker {
         execution_command_sender
             .update_blockclique(
                 block_db.clone_all_final_blocks(),
+                /* TODO DISABLED TEMPORARILY https://github.com/massalabs/massa/issues/2101
                 block_db
                     .get_blockclique()
                     .into_iter()
@@ -260,6 +261,8 @@ impl ConsensusWorker {
                             .map(|a_block| (block_id, a_block.block.clone()))
                     })
                     .collect(),
+                */
+                BlockHashMap::default(),
             )
             .await?;
 
@@ -1459,7 +1462,7 @@ impl ConsensusWorker {
 
             let creator_addr = Address::from_public_key(&b_creator);
             if self.staking_keys.contains_key(&creator_addr) {
-                warn!("block {} that was produced by our address {} at slot {} became stale. This is probably due to a temporary desynchronization.", b_id, b_slot, creator_addr);
+                warn!("block {} that was produced by our address {} at slot {} became stale. This is probably due to a temporary desynchronization.", b_id, creator_addr, b_slot);
             }
         }
 

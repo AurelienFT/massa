@@ -474,7 +474,7 @@ impl Endpoints for API<Public> {
                         .remove(&address)
                         .ok_or(ApiError::NotFound)?,
                     production_stats: state.production_stats,
-                    sce_ledger_info: sce_info.get(&address).copied(),
+                    sce_ledger_info: sce_info.get(&address).cloned().unwrap_or_default(),
                 })
             }
             Ok(res)
