@@ -136,11 +136,16 @@ impl std::fmt::Display for RollsInfo {
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone, Copy)]
-pub struct SCELedgerInfo {}
+pub struct SCELedgerInfo {
+    balance: Amount,
+    module: Option<Vec<u8>>,
+    datastore: HHashMap<Hash, Vec<u8>>,
+}
 
 impl std::fmt::Display for SCELedgerInfo {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        writeln!(f, "    Balance: {}", self.balance)?;
+        // I choose not to display neither the module nor the datastore because bytes
     }
 }
 
@@ -149,7 +154,7 @@ pub struct AddressInfo {
     pub address: Address,
     pub thread: u8,
     pub ledger_info: LedgerInfo,
-    pub sce_ledger_info: Option<SCELedgerInfo>,
+    pub sce_ledger_info: SCELedgerInfo,
     pub rolls: RollsInfo,
     pub block_draws: HashSet<Slot>,
     pub endorsement_draws: HashSet<IndexedSlot>,
@@ -163,7 +168,8 @@ impl std::fmt::Display for AddressInfo {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         writeln!(f, "Address: {}", self.address)?;
         writeln!(f, "Thread: {}", self.thread)?;
-        writeln!(f, "Balance:\n{}", self.ledger_info)?;
+        writeln!(f, "Parallel balance:\n{}", self.ledger_info)?;
+        writeln!(f, "Sequential balance:\n{}", self.sce_ledger_info)?;
         writeln!(f, "Rolls:\n{}", self.rolls)?;
         writeln!(
             f,
