@@ -21,7 +21,7 @@ pub(crate) struct VM {
     thread_count: u8,
     step_history: StepHistory,
     execution_interface: Box<dyn Interface>,
-    execution_context: Arc<Mutex<ExecutionContext>>,
+    pub execution_context: Arc<Mutex<ExecutionContext>>,
 }
 
 impl VM {

@@ -138,9 +138,9 @@ impl std::fmt::Display for RollsInfo {
 
 #[derive(Debug, Deserialize, Serialize, Clone, Default)]
 pub struct SCELedgerInfo {
-    balance: Amount,
-    module: Option<Vec<u8>>,
-    datastore: HHashMap<Hash, Vec<u8>>,
+    pub balance: Amount,
+    pub module: Option<Vec<u8>>,
+    pub datastore: HHashMap<Hash, Vec<u8>>,
 }
 
 impl std::fmt::Display for SCELedgerInfo {
