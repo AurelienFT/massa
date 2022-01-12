@@ -8,6 +8,7 @@ use crate::types::{ExecutionContext, ExecutionData, ExecutionStep, StepHistory, 
 use crate::{config::ExecutionConfigs, ExecutionError};
 use assembly_simulator::Interface;
 use massa_models::address::AddressHashMap;
+use massa_models::api::SCELedgerInfo;
 use massa_models::timeslots::slot_count_in_range;
 use massa_models::{
     execution::{ExecuteReadOnlyResponse, ReadOnlyResult},
@@ -70,6 +71,34 @@ impl VM {
             .ledger_step
             .final_ledger_slot
             .clone()
+    }
+
+    // clone bootstrap state (final ledger and slot)
+    pub fn get_sce_ledger_entry_for_addresses(
+        &self,
+        addresses: Vec<Address>,
+    ) -> AddressHashMap<SCELedgerInfo> {
+        let ledger = &self
+            .execution_context
+            .lock()
+            .unwrap()
+            .ledger_step
+            .final_ledger_slot
+            .ledger;
+        addresses
+            .into_iter()
+            .map(|ad| {
+                let entry = ledger.0.get(&ad).cloned().unwrap_or_default();
+                (
+                    ad,
+                    SCELedgerInfo {
+                        balance: entry.balance,
+                        module: entry.opt_module,
+                        datastore: entry.data,
+                    },
+                )
+            })
+            .collect()
     }
 
     /// runs an SCE-final execution step

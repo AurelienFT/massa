@@ -1,6 +1,5 @@
 use crate::error::ExecutionError;
 use crate::sce_ledger::FinalLedger;
-use crate::types::ExecutionContext;
 use crate::types::{ExecutionQueue, ExecutionRequest};
 use crate::vm::VM;
 use crate::BootstrapExecutionState;
@@ -12,13 +11,10 @@ use massa_models::output_event::SCOutputEvent;
 use massa_models::timeslots::{get_block_slot_timestamp, get_current_latest_block_slot};
 use massa_models::{Address, Amount, Block, BlockHashMap, BlockId, Slot};
 use std::collections::BTreeMap;
-use std::sync::Arc;
-use std::sync::Mutex;
 use std::thread::{self, JoinHandle};
 use tokio::sync::{mpsc, oneshot};
 use tokio::time::sleep_until;
 use tracing::debug;
-use tracing::log::warn;
 
 /// Commands sent to the `execution` component.
 #[derive(Debug)]
@@ -64,7 +60,6 @@ pub enum ExecutionCommand {
         /// which will simulate the sender of the operation.
         address: Option<Address>,
     },
-
     GetSCELedgerForAddresses {
         response_tx: oneshot::Sender<AddressHashMap<SCELedgerInfo>>,
         addresses: Vec<Address>,
@@ -99,10 +94,6 @@ pub struct ExecutionWorker {
     vm_thread: JoinHandle<()>,
     /// VM execution requests queue
     execution_queue: ExecutionQueue,
-    /// Used ONLY to retrive info.
-    /// DO NOT modify outside the vm
-    /// TODO wrap that into a read only object
-    execution_context: Arc<Mutex<ExecutionContext>>,
 }
 
 impl ExecutionWorker {
@@ -175,6 +166,15 @@ impl ExecutionWorker {
                         }
                     }
                     Some(ExecutionRequest::Shutdown) => return,
+                    Some(ExecutionRequest::GetSCELedgerForAddresses {
+                        addresses,
+                        response_tx,
+                    }) => {
+                        let res = vm.get_sce_ledger_entry_for_addresses(addresses);
+                        if response_tx.send(res).is_err() {
+                            debug!("execution: could not send GetSCELedgerForAddresses response")
+                        }
+                    }
                     None => {
                         requests = condvar.wait(requests).unwrap();
                     }
@@ -193,7 +193,6 @@ impl ExecutionWorker {
             pending_css_final_blocks: Default::default(),
             vm_thread,
             execution_queue,
-            execution_context,
         })
     }
 
@@ -320,36 +319,10 @@ impl ExecutionWorker {
             ExecutionCommand::GetSCELedgerForAddresses {
                 response_tx,
                 addresses,
-            } => {
-                let ledger = &self
-                    .execution_context
-                    .lock()
-                    .unwrap()
-                    .ledger_step
-                    .final_ledger_slot
-                    .ledger;
-                if response_tx
-                    .send(
-                        addresses
-                            .into_iter()
-                            .map(|ad| {
-                                let entry = ledger.0.get(&ad).cloned().unwrap_or_default();
-                                (
-                                    ad,
-                                    SCELedgerInfo {
-                                        balance: entry.balance,
-                                        module: entry.opt_module,
-                                        datastore: entry.data,
-                                    },
-                                )
-                            })
-                            .collect(),
-                    )
-                    .is_err()
-                {
-                    warn!("execution: could not send GetSCELedgerForAddresses response")
-                }
-            }
+            } => self.push_request(ExecutionRequest::GetSCELedgerForAddresses {
+                response_tx,
+                addresses,
+            }),
         }
         Ok(())
     }
