@@ -1,5 +1,9 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `massa-consensus&#x2F;src&#x2F;consensus_controller.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>consensus_controller.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css"disabled><link rel="stylesheet" type="text/css" href="../../dark.css"disabled><link rel="stylesheet" type="text/css" href="../../light.css"id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
-    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../massa_consensus/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `massa-consensus/src/consensus_controller.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>consensus_controller.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../massa_consensus/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"></h2>
+    </nav>
+    <nav class="sidebar"><a class="sidebar-logo" href="../../massa_consensus/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
+        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../massa_consensus/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><div class="theme-picker hidden"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="22" height="22" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -624,6 +628,11 @@
 <span id="623">623</span>
 <span id="624">624</span>
 <span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
 </pre><pre class="rust"><code><span class="comment">// Copyright (c) 2021 MASSA LABS &lt;info@massa.net&gt;</span>
 <span class="kw">use</span> <span class="kw">super</span>::{
     <span class="ident">block_graph</span>::<span class="kw-2">*</span>,
@@ -633,15 +642,12 @@
     <span class="ident">pos::ProofOfStake</span>,
     <span class="ident">settings</span>::{<span class="ident">ConsensusConfig</span>, <span class="ident">CHANNEL_SIZE</span>},
 };
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::error::ConsensusError</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::pos::ExportProofOfStake</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">consensus_worker::ConsensusWorkerChannels</span>, <span class="ident">error::ConsensusError</span>};
 <span class="kw">use</span> <span class="ident">massa_execution</span>::{<span class="ident">ExecutionCommandSender</span>, <span class="ident">ExecutionEventReceiver</span>};
 
 <span class="kw">use</span> <span class="ident">massa_models</span>::{
-    <span class="ident">address</span>::{<span class="ident">AddressHashMap</span>, <span class="ident">AddressHashSet</span>, <span class="ident">AddressState</span>},
-    <span class="ident">api::EndorsementInfo</span>,
-    <span class="ident">BlockHashMap</span>, <span class="ident">Endorsement</span>, <span class="ident">EndorsementHashMap</span>, <span class="ident">EndorsementHashSet</span>, <span class="ident">OperationHashMap</span>,
-    <span class="ident">OperationHashSet</span>,
+    <span class="ident">address::AddressState</span>, <span class="ident">api::EndorsementInfo</span>, <span class="ident">Endorsement</span>, <span class="ident">EndorsementId</span>, <span class="ident">OperationId</span>,
 };
 <span class="kw">use</span> <span class="ident">massa_models</span>::{<span class="ident">clique::Clique</span>, <span class="ident">stats::ConsensusStats</span>};
 <span class="kw">use</span> <span class="ident">massa_models</span>::{
@@ -653,12 +659,22 @@
 
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">collections::VecDeque</span>, <span class="ident">path::Path</span>};
 
+<span class="kw">use</span> <span class="ident">massa_models::prehash</span>::{<span class="ident">Map</span>, <span class="ident">Set</span>};
 <span class="kw">use</span> <span class="ident">tokio</span>::{
     <span class="ident">sync</span>::{<span class="ident">mpsc</span>, <span class="ident">oneshot</span>},
     <span class="ident">task::JoinHandle</span>,
 };
 <span class="kw">use</span> <span class="ident">tracing</span>::{<span class="ident">debug</span>, <span class="ident">error</span>, <span class="ident">info</span>};
 
+<span class="doccomment">/// Public channels associated to the consensus module.</span>
+<span class="doccomment">/// Execution &amp; Protocol Sender/Receiver</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConsensusChannels</span> {
+    <span class="kw">pub</span> <span class="ident">execution_command_sender</span>: <span class="ident">ExecutionCommandSender</span>,
+    <span class="kw">pub</span> <span class="ident">execution_event_receiver</span>: <span class="ident">ExecutionEventReceiver</span>,
+    <span class="kw">pub</span> <span class="ident">protocol_command_sender</span>: <span class="ident">ProtocolCommandSender</span>,
+    <span class="kw">pub</span> <span class="ident">protocol_event_receiver</span>: <span class="ident">ProtocolEventReceiver</span>,
+    <span class="kw">pub</span> <span class="ident">pool_command_sender</span>: <span class="ident">PoolCommandSender</span>,
+}
 <span class="doccomment">/// Creates a new consensus controller.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Arguments</span>
@@ -667,11 +683,7 @@
 <span class="doccomment">/// * protocol_event_receiver: a ProtocolEventReceiver instance to receive events from Protocol.</span>
 <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">start_consensus_controller</span>(
     <span class="ident">cfg</span>: <span class="ident">ConsensusConfig</span>,
-    <span class="ident">execution_command_sender</span>: <span class="ident">ExecutionCommandSender</span>,
-    <span class="ident">execution_event_receiver</span>: <span class="ident">ExecutionEventReceiver</span>,
-    <span class="ident">protocol_command_sender</span>: <span class="ident">ProtocolCommandSender</span>,
-    <span class="ident">protocol_event_receiver</span>: <span class="ident">ProtocolEventReceiver</span>,
-    <span class="ident">pool_command_sender</span>: <span class="ident">PoolCommandSender</span>,
+    <span class="ident">channels</span>: <span class="ident">ConsensusChannels</span>,
     <span class="ident">boot_pos</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ExportProofOfStake</span><span class="op">&gt;</span>,
     <span class="ident">boot_graph</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">BootstrapableGraph</span><span class="op">&gt;</span>,
     <span class="ident">clock_compensation</span>: <span class="ident">i64</span>,
@@ -713,23 +725,25 @@
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pos</span> <span class="op">=</span>
         <span class="ident">ProofOfStake::new</span>(<span class="ident">cfg</span>.<span class="ident">clone</span>(), <span class="ident">block_db</span>.<span class="ident">get_genesis_block_ids</span>(), <span class="ident">boot_pos</span>).<span class="kw">await</span><span class="question-mark">?</span>;
     <span class="ident">pos</span>.<span class="ident">set_watched_addresses</span>(<span class="ident">staking_keys</span>.<span class="ident">keys</span>().<span class="ident">copied</span>().<span class="ident">collect</span>());
-    <span class="kw">let</span> (<span class="ident">command_tx</span>, <span class="ident">command_rx</span>) <span class="op">=</span> <span class="ident">mpsc::channel</span>::<span class="op">&lt;</span><span class="ident">ConsensusCommand</span><span class="op">&gt;</span>(<span class="ident">CHANNEL_SIZE</span>);
-    <span class="kw">let</span> (<span class="ident">event_tx</span>, <span class="ident">event_rx</span>) <span class="op">=</span> <span class="ident">mpsc::channel</span>::<span class="op">&lt;</span><span class="ident">ConsensusEvent</span><span class="op">&gt;</span>(<span class="ident">CHANNEL_SIZE</span>);
-    <span class="kw">let</span> (<span class="ident">manager_tx</span>, <span class="ident">manager_rx</span>) <span class="op">=</span> <span class="ident">mpsc::channel</span>::<span class="op">&lt;</span><span class="ident">ConsensusManagementCommand</span><span class="op">&gt;</span>(<span class="number">1</span>);
+    <span class="kw">let</span> (<span class="ident">command_tx</span>, <span class="ident">controller_command_rx</span>) <span class="op">=</span> <span class="ident">mpsc::channel</span>::<span class="op">&lt;</span><span class="ident">ConsensusCommand</span><span class="op">&gt;</span>(<span class="ident">CHANNEL_SIZE</span>);
+    <span class="kw">let</span> (<span class="ident">controller_event_tx</span>, <span class="ident">event_rx</span>) <span class="op">=</span> <span class="ident">mpsc::channel</span>::<span class="op">&lt;</span><span class="ident">ConsensusEvent</span><span class="op">&gt;</span>(<span class="ident">CHANNEL_SIZE</span>);
+    <span class="kw">let</span> (<span class="ident">manager_tx</span>, <span class="ident">controller_manager_rx</span>) <span class="op">=</span> <span class="ident">mpsc::channel</span>::<span class="op">&lt;</span><span class="ident">ConsensusManagementCommand</span><span class="op">&gt;</span>(<span class="number">1</span>);
     <span class="kw">let</span> <span class="ident">cfg_copy</span> <span class="op">=</span> <span class="ident">cfg</span>.<span class="ident">clone</span>();
     <span class="kw">let</span> <span class="ident">join_handle</span> <span class="op">=</span> <span class="ident">tokio::spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">ConsensusWorker::new</span>(
             <span class="ident">cfg_copy</span>,
-            <span class="ident">protocol_command_sender</span>,
-            <span class="ident">protocol_event_receiver</span>,
-            <span class="ident">execution_event_receiver</span>,
-            <span class="ident">pool_command_sender</span>,
-            <span class="ident">execution_command_sender</span>,
+            <span class="ident">ConsensusWorkerChannels</span> {
+                <span class="ident">protocol_command_sender</span>: <span class="ident">channels</span>.<span class="ident">protocol_command_sender</span>,
+                <span class="ident">protocol_event_receiver</span>: <span class="ident">channels</span>.<span class="ident">protocol_event_receiver</span>,
+                <span class="ident">execution_event_receiver</span>: <span class="ident">channels</span>.<span class="ident">execution_event_receiver</span>,
+                <span class="ident">execution_command_sender</span>: <span class="ident">channels</span>.<span class="ident">execution_command_sender</span>,
+                <span class="ident">pool_command_sender</span>: <span class="ident">channels</span>.<span class="ident">pool_command_sender</span>,
+                <span class="ident">controller_command_rx</span>,
+                <span class="ident">controller_event_tx</span>,
+                <span class="ident">controller_manager_rx</span>,
+            },
             <span class="ident">block_db</span>,
             <span class="ident">pos</span>,
-            <span class="ident">command_rx</span>,
-            <span class="ident">event_tx</span>,
-            <span class="ident">manager_rx</span>,
             <span class="ident">clock_compensation</span>,
             <span class="ident">staking_keys</span>,
         )
@@ -759,9 +773,9 @@
 
 <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">load_initial_staking_keys</span>(
     <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>,
-) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">AddressHashMap</span><span class="op">&lt;</span>(<span class="ident">PublicKey</span>, <span class="ident">PrivateKey</span>)<span class="op">&gt;</span>, <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
+) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Map</span><span class="op">&lt;</span><span class="ident">Address</span>, (<span class="ident">PublicKey</span>, <span class="ident">PrivateKey</span>)<span class="op">&gt;</span>, <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="op">!</span><span class="ident">std::path::Path::is_file</span>(<span class="ident">path</span>) {
-        <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">AddressHashMap::default</span>());
+        <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Map::default</span>());
     }
     <span class="ident">serde_json::from_str</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PrivateKey</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">tokio::fs::read_to_string</span>(<span class="ident">path</span>).<span class="kw">await</span><span class="question-mark">?</span>)<span class="question-mark">?</span>
         .<span class="ident">iter</span>()
@@ -941,7 +955,7 @@
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_block_ids_by_creator</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">address</span>: <span class="ident">Address</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">BlockHashMap</span><span class="op">&lt;</span><span class="ident">Status</span><span class="op">&gt;</span>, <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Map</span><span class="op">&lt;</span><span class="ident">BlockId</span>, <span class="ident">Status</span><span class="op">&gt;</span>, <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> (<span class="ident">response_tx</span>, <span class="ident">response_rx</span>) <span class="op">=</span> <span class="ident">oneshot::channel</span>();
         <span class="macro">massa_trace!</span>(<span class="string">&quot;consensus.consensus_controller.get_block_ids_by_creator&quot;</span>, {
         });
@@ -965,8 +979,8 @@
 
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_operations</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">operation_ids</span>: <span class="ident">OperationHashSet</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">OperationHashMap</span><span class="op">&lt;</span><span class="ident">OperationSearchResult</span><span class="op">&gt;</span>, <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
+        <span class="ident">operation_ids</span>: <span class="ident">Set</span><span class="op">&lt;</span><span class="ident">OperationId</span><span class="op">&gt;</span>,
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Map</span><span class="op">&lt;</span><span class="ident">OperationId</span>, <span class="ident">OperationSearchResult</span><span class="op">&gt;</span>, <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> (<span class="ident">response_tx</span>, <span class="ident">response_rx</span>) <span class="op">=</span> <span class="ident">oneshot::channel</span>();
         <span class="macro">massa_trace!</span>(<span class="string">&quot;consensus.consensus_controller.get_operatiosn&quot;</span>, {
             <span class="string">&quot;operation_ids&quot;</span>: <span class="ident">operation_ids</span>
@@ -992,9 +1006,9 @@
     <span class="doccomment">/// Gets the candidate and final ledger data of a list of addresses</span>
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_addresses_info</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">addresses</span>: <span class="ident">AddressHashSet</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">AddressHashMap</span><span class="op">&lt;</span><span class="ident">AddressState</span><span class="op">&gt;</span>, <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> (<span class="ident">response_tx</span>, <span class="ident">response_rx</span>) <span class="op">=</span> <span class="ident">oneshot::channel</span>::<span class="op">&lt;</span><span class="ident">AddressHashMap</span><span class="op">&lt;</span><span class="ident">AddressState</span><span class="op">&gt;</span><span class="op">&gt;</span>();
+        <span class="ident">addresses</span>: <span class="ident">Set</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span>,
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Map</span><span class="op">&lt;</span><span class="ident">Address</span>, <span class="ident">AddressState</span><span class="op">&gt;</span>, <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> (<span class="ident">response_tx</span>, <span class="ident">response_rx</span>) <span class="op">=</span> <span class="ident">oneshot::channel</span>::<span class="op">&lt;</span><span class="ident">Map</span><span class="op">&lt;</span><span class="ident">Address</span>, <span class="ident">AddressState</span><span class="op">&gt;</span><span class="op">&gt;</span>();
         <span class="macro">massa_trace!</span>(<span class="string">&quot;consensus.consensus_controller.get_addresses_info&quot;</span>, {
             <span class="string">&quot;addresses&quot;</span>: <span class="ident">addresses</span>
         });
@@ -1020,7 +1034,7 @@
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_operations_involving_address</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">address</span>: <span class="ident">Address</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">OperationHashMap</span><span class="op">&lt;</span><span class="ident">OperationSearchResult</span><span class="op">&gt;</span>, <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Map</span><span class="op">&lt;</span><span class="ident">OperationId</span>, <span class="ident">OperationSearchResult</span><span class="op">&gt;</span>, <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> (<span class="ident">response_tx</span>, <span class="ident">response_rx</span>) <span class="op">=</span> <span class="ident">oneshot::channel</span>();
         <span class="macro">massa_trace!</span>(
             <span class="string">&quot;consensus.consensus_controller.get_operations_involving_address&quot;</span>,
@@ -1063,7 +1077,7 @@
         })
     }
 
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_active_stakers</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">AddressHashMap</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>, <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_active_stakers</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Map</span><span class="op">&lt;</span><span class="ident">Address</span>, <span class="ident">u64</span><span class="op">&gt;</span>, <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> (<span class="ident">response_tx</span>, <span class="ident">response_rx</span>) <span class="op">=</span> <span class="ident">oneshot::channel</span>();
         <span class="macro">massa_trace!</span>(<span class="string">&quot;consensus.consensus_controller.get_active_stakers&quot;</span>, {});
         <span class="self">self</span>.<span class="number">0</span>
@@ -1099,7 +1113,7 @@
 
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">remove_staking_addresses</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">addresses</span>: <span class="ident">AddressHashSet</span>,
+        <span class="ident">addresses</span>: <span class="ident">Set</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span>,
     ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
         <span class="macro">massa_trace!</span>(<span class="string">&quot;consensus.consensus_controller.remove_staking_addresses&quot;</span>, {
         });
@@ -1111,7 +1125,7 @@
             })
     }
 
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_staking_addresses</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">AddressHashSet</span>, <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_staking_addresses</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Set</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span>, <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> (<span class="ident">response_tx</span>, <span class="ident">response_rx</span>) <span class="op">=</span> <span class="ident">oneshot::channel</span>();
         <span class="macro">massa_trace!</span>(<span class="string">&quot;consensus.consensus_controller.get_staking_addresses&quot;</span>, {});
         <span class="self">self</span>.<span class="number">0</span>
@@ -1131,7 +1145,7 @@
 
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_stakers_production_stats</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">addrs</span>: <span class="ident">AddressHashSet</span>,
+        <span class="ident">addrs</span>: <span class="ident">Set</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span>,
     ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">StakersCycleProductionStats</span><span class="op">&gt;</span>, <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> (<span class="ident">response_tx</span>, <span class="ident">response_rx</span>) <span class="op">=</span> <span class="ident">oneshot::channel</span>();
         <span class="macro">massa_trace!</span>(
@@ -1156,7 +1170,7 @@
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_endorsements_by_address</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">address</span>: <span class="ident">Address</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">EndorsementHashMap</span><span class="op">&lt;</span><span class="ident">Endorsement</span><span class="op">&gt;</span>, <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Map</span><span class="op">&lt;</span><span class="ident">EndorsementId</span>, <span class="ident">Endorsement</span><span class="op">&gt;</span>, <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> (<span class="ident">response_tx</span>, <span class="ident">response_rx</span>) <span class="op">=</span> <span class="ident">oneshot::channel</span>();
         <span class="macro">massa_trace!</span>(
             <span class="string">&quot;consensus.consensus_controller.get_endorsements_by_address&quot;</span>,
@@ -1182,8 +1196,8 @@
 
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_endorsements_by_id</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">endorsements</span>: <span class="ident">EndorsementHashSet</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">EndorsementHashMap</span><span class="op">&lt;</span><span class="ident">EndorsementInfo</span><span class="op">&gt;</span>, <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
+        <span class="ident">endorsements</span>: <span class="ident">Set</span><span class="op">&lt;</span><span class="ident">EndorsementId</span><span class="op">&gt;</span>,
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Map</span><span class="op">&lt;</span><span class="ident">EndorsementId</span>, <span class="ident">EndorsementInfo</span><span class="op">&gt;</span>, <span class="ident">ConsensusError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> (<span class="ident">response_tx</span>, <span class="ident">response_rx</span>) <span class="op">=</span> <span class="ident">oneshot::channel</span>();
         <span class="macro">massa_trace!</span>(<span class="string">&quot;consensus.consensus_controller.get_endorsements_by_id&quot;</span>, {});
         <span class="self">self</span>.<span class="number">0</span>
@@ -1250,5 +1264,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="massa_consensus" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (acbe4443c 2021-12-02)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="massa_consensus" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.60.0-nightly (f624427f8 2022-02-06)" ></div>
 </body></html>
