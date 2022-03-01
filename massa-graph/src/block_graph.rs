@@ -3665,9 +3665,12 @@ impl BlockGraph {
             .filter_map(|b_id| {
                 if let Some(a_b) = self.get_active_block(b_id) {
                     if a_b.is_final {
-                        let block = self.storage.retrieve_block(b_id).unwrap();
-                        let stored_block = block.read();
-                        return Some((*b_id, stored_block.block.clone()));
+                        if let Some(block) = self.storage.retrieve_block(b_id) {
+                            let stored_block = block.read();
+                            return Some((*b_id, stored_block.block.clone()));
+                        } else {
+                            return None;
+                        }
                     }
                 }
                 None
