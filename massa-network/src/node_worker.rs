@@ -305,7 +305,7 @@ impl NodeWorker {
 
                                 // TODO: avoid computing id, and cloning block.
                                 self.storage.store_block(block.header.compute_block_id()?, block.clone(), serialized.unwrap());
-                                self.send_node_event(NodeEvent(self.node_id, NodeEventType::ReceivedBlock(block))).await;
+                                self.send_node_event(NodeEvent(self.node_id, NodeEventType::ReceivedBlock(block.header.compute_block_id()?))).await;
                             },
                             Message::BlockHeader(header) => {
                                 massa_trace!(
