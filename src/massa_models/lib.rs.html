@@ -3,15 +3,15 @@
         </a><h2 class="location"></h2>
     </nav>
     <nav class="sidebar"><a class="sidebar-logo" href="../../massa_models/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../massa_models/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><div class="theme-picker hidden"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="22" height="22" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1"> 1</span>
-<span id="2"> 2</span>
-<span id="3"> 3</span>
-<span id="4"> 4</span>
-<span id="5"> 5</span>
-<span id="6"> 6</span>
-<span id="7"> 7</span>
-<span id="8"> 8</span>
-<span id="9"> 9</span>
+        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../massa_models/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><div class="theme-picker hidden"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="22" height="22" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
 <span id="10">10</span>
 <span id="11">11</span>
 <span id="12">12</span>
@@ -54,57 +54,63 @@
 <span id="49">49</span>
 <span id="50">50</span>
 <span id="51">51</span>
-</pre><pre class="rust"><code><span class="comment">// Copyright (c) 2021 MASSA LABS &lt;info@massa.net&gt;</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+</pre><pre class="rust"><code><span class="comment">// Copyright (c) 2022 MASSA LABS &lt;info@massa.net&gt;</span>
 
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lazy_static</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">address::Address</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">amount</span>::{<span class="ident">Amount</span>, <span class="ident">AMOUNT_ZERO</span>};
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">block</span>::{<span class="ident">Block</span>, <span class="ident">BlockHeader</span>, <span class="ident">BlockHeaderContent</span>, <span class="ident">BlockId</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">amount::Amount</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">block</span>::{<span class="ident">Block</span>, <span class="ident">BlockHeader</span>, <span class="ident">BlockId</span>, <span class="ident">SignedHeader</span>};
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">composite</span>::{
     <span class="ident">OperationSearchResult</span>, <span class="ident">OperationSearchResultBlockStatus</span>, <span class="ident">OperationSearchResultStatus</span>,
     <span class="ident">StakersCycleProductionStats</span>,
 };
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">context</span>::{
-    <span class="ident">get_serialization_context</span>, <span class="ident">init_serialization_context</span>, <span class="ident">with_serialization_context</span>,
-    <span class="ident">SerializationContext</span>,
-};
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">endorsement</span>::{<span class="ident">Endorsement</span>, <span class="ident">EndorsementContent</span>, <span class="ident">EndorsementId</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">endorsement</span>::{<span class="ident">Endorsement</span>, <span class="ident">EndorsementId</span>, <span class="ident">SignedEndorsement</span>};
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">error::ModelsError</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">operation</span>::{<span class="ident">Operation</span>, <span class="ident">OperationContent</span>, <span class="ident">OperationId</span>, <span class="ident">OperationType</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">operation</span>::{<span class="ident">Operation</span>, <span class="ident">OperationId</span>, <span class="ident">OperationType</span>, <span class="ident">SignedOperation</span>};
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">serialization</span>::{
     <span class="ident">array_from_slice</span>, <span class="ident">u8_from_slice</span>, <span class="ident">DeserializeCompact</span>, <span class="ident">DeserializeMinBEInt</span>, <span class="ident">DeserializeVarInt</span>,
     <span class="ident">SerializeCompact</span>, <span class="ident">SerializeMinBEInt</span>, <span class="ident">SerializeVarInt</span>,
 };
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">settings::CompactConfig</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">settings</span>::{
-    <span class="ident">ADDRESS_SIZE_BYTES</span>, <span class="ident">BLOCK_ID_SIZE_BYTES</span>, <span class="ident">OPERATION_ID_SIZE_BYTES</span>, <span class="ident">SLOT_KEY_SIZE</span>,
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">serialization_context</span>::{
+    <span class="ident">get_serialization_context</span>, <span class="ident">init_serialization_context</span>, <span class="ident">with_serialization_context</span>,
+    <span class="ident">SerializationContext</span>,
 };
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">slot::Slot</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">version::Version</span>;
-
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">active_block</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">address</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">amount</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">api</span>;
 <span class="kw">mod</span> <span class="ident">block</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">clique</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">composite</span>;
-<span class="kw">mod</span> <span class="ident">context</span>;
 <span class="kw">mod</span> <span class="ident">endorsement</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">error</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">execution</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ledger</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ledger_models</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">node</span>;
+<span class="kw">mod</span> <span class="ident">node_configuration</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">operation</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">output_event</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">prehash</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">rolls</span>;
 <span class="kw">mod</span> <span class="ident">serialization</span>;
-<span class="kw">mod</span> <span class="ident">settings</span>;
+<span class="kw">mod</span> <span class="ident">serialization_context</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">signed</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">slot</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">stats</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">timeslots</span>;
 <span class="kw">mod</span> <span class="ident">version</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">node_configuration::CompactConfig</span>;
+<span class="doccomment">/// Expose constants</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">constants</span> {
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::node_configuration</span>::<span class="kw-2">*</span>;
+}
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="massa_models" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.60.0-nightly (f624427f8 2022-02-06)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="massa_models" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (5f4e06771 2022-03-10)" ></div>
 </body></html>
