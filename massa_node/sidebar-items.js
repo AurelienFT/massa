@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["launch",""],["main","To instrument `massa-node` with `tokio-console` run"],["stop",""]],"mod":[["settings","Build here the default node settings from the config file toml"]],"struct":[["Managers",""]]});
+window.SIDEBAR_ITEMS = {"fn":["configure_grpc","launch","load_wallet","main","run","stop"],"mod":["settings","survey"],"struct":["Args","Managers"]};

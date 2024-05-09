@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["BootstrapSettings",""]]});
+window.SIDEBAR_ITEMS = {"enum":["IpType"],"struct":["BootstrapClientConfig","BootstrapConfig","BootstrapServerMessageDeserializerArgs","BootstrapSrvBindCfg"]};

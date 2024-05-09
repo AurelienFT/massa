@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["TimeError",""]],"struct":[["MassaTime","Time structure used every where. Millis since 01/01/1970."]]});
+window.SIDEBAR_ITEMS = {"enum":["TimeError"],"mod":["error","mapping_grpc"],"struct":["MassaTime","MassaTimeDeserializer","MassaTimeSerializer"]};

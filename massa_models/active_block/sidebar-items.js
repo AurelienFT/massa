@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["ActiveBlock","Block that was checked as final, with some useful precomputed data"]]});
+window.SIDEBAR_ITEMS = {"struct":["ActiveBlock"]};

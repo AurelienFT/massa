@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["ConsensusCommand","Commands that can be proccessed by consensus."],["ConsensusManagementCommand","Events that are emitted by consensus."]]});

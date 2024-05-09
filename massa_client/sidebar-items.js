@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["main",""]],"mod":[["cmds",""],["repl",""],["settings","Build here the default client settings from the config file toml"],["utils","Utilities"]],"struct":[["Args",""],["JsonError",""]]});
+window.SIDEBAR_ITEMS = {"fn":["ask_password","main","run"],"macro":["client_warning","grpc_error","massa_fancy_ascii_art_logo","rpc_error"],"mod":["cmds","display","repl","settings"],"struct":["Args","JsonError"]};

@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Address",""],["AddressCycleProductionStats",""],["AddressState",""],["Addresses",""]]});
+window.SIDEBAR_ITEMS = {"constant":["ADDRESS_PREFIX","SC_PREFIX","USER_PREFIX"],"enum":["Address","SCAddress","UserAddress"],"macro":["SCAddress","SCAddressVariant","UserAddress","UserAddressVariant"],"struct":["AddressDeserializer","AddressSerializer","ExecutionAddressCycleInfo","SCAddressV0","UserAddressV0"]};

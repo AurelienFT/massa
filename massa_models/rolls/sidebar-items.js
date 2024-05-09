@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["RollCompensation",""],["RollCounts",""],["RollUpdate",""],["RollUpdates",""]]});
+window.SIDEBAR_ITEMS = {"struct":["RollCompensation","RollCounts","RollUpdate","RollUpdateDeserializer","RollUpdateSerializer","RollUpdates"]};

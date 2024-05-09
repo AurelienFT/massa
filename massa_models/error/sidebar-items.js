@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["ModelsError",""]],"type":[["ModelsResult",""]]});
+window.SIDEBAR_ITEMS = {"constant":["_DERIVE_Display_FOR_ModelsError"],"enum":["ModelsError"],"type":["ModelsResult"]};

@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["ExecutionSettings",""],["LedgerSettings",""],["LoggingSettings",""],["POOL_CONFIG",""],["SETTINGS",""],["Settings",""]]});
+window.SIDEBAR_ITEMS = {"struct":["APISettings","BootstrapSettings","ConsensusSettings","ExecutionSettings","FactorySettings","GrpcApiSettings","GrpcSettings","LedgerSettings","LoggingSettings","MetricsSettings","NetworkSettings","PoolSettings","ProtocolSettings","SETTINGS","SelectionSettings","Settings","VersioningSettings"]};
